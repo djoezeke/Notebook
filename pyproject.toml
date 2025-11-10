@@ -1,0 +1,112 @@
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[project]
+name = "notebook"
+version = "0.1.0"
+description = "Note Editor."
+long_description = "A Note Application."
+long_description_content_type = "text/markdown"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Sackey Ezekiel Etrue", email = "sackeyetrue@gmail.com" },
+]
+maintainers = [
+  { name = "Sackey Ezekiel Etrue", email = "sackeyetrue@gmail.com" },
+]
+keywords = [
+  "note", "editor", "note editor", "notebook", "ui"
+]
+classifiers = [
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: Microsoft :: Windows",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "ttkbootstrap>=1.18.1",
+]
+
+[project.scripts]
+notebook = "notebook.__main__:run"
+
+[project.urls]
+Homepage = "https://github.com/djoezeke/notebook"
+Documentation = "https://github.com/djoezeke/notebook#readme"
+Issues = "https://github.com/djoezeke/notebook/issues"
+"Release Notes" = "https://github.com/djoezeke/notebook/releases"
+Source = "https://github.com/djoezeke/notebook"
+
+[project.optional-dependencies]
+standard = []
+
+[dependency-groups]
+dev = [
+    # We add notebook[standard] so `uv sync` considers the extras.
+    "notebook[standard]",
+    "ruff",   # format & check
+    "pytest", # testing
+    "twine",  # check dist
+]
+docs = [
+    "mkdocs==1.6.1",
+    "mkdocs-material==9.6.13",
+    "mkdocstrings-python==1.16.12",
+    "mkdocs-llmstxt==0.2.0",
+]
+
+[tool.uv]
+package = true 
+default-groups = ["dev", "docs"]
+
+[tool.uv.build-backend]
+module-name = "notebook"
+module-root = ""
+source-include = ["*.md",]
+source-exclude = ["tests/",]
+wheel-exclude = ["*.bin"]
+namespaces = false
+
+# Configure Ruff's linting rules
+[tool.ruff]
+src = ["notebook", "tests"]
+fix = true
+show-fixes = true
+output-format = "full"
+line-length = 120 
+
+# Further linting configurations
+[tool.ruff.lint]
+unfixable = [
+    "F841", # Example: prevent fixing of unused local variables
+]
+select = [
+    "B",  # flake8-bugbear
+    "E",  # pycodestyle error
+    "F",  # pyflakes
+    "I",  # isort
+    "UP", # pyupgrade
+    "W",  # pycodestyle warning
+]
+ignore = [
+    "E501",  # ignore line length errors
+]
+
+
+[tool.ruff.lint.isort]
+force-single-line = true
+order-by-type = false
+combine-as-imports = true
+split-on-trailing-comma = true
+known-first-party = ["notebook"]
+# known-third-party = ["ttkbootstrap"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+# Configure Ruff's formatter
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

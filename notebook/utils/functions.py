@@ -1,11 +1,13 @@
 """Functions"""
 
-import os
 import json
-from PIL import Image, ImageTk
-from tksvg import SvgImage
+import os
+from pathlib import Path
 
-ROOT = os.path.dirname(os.path.realpath(__file__))
+from PIL import Image
+from PIL import ImageTk
+
+ROOT = Path(__file__).resolve().parent.parent.parent / "resources"
 
 #################################### UTILS #######################################
 
@@ -19,22 +21,12 @@ def get_img(file, size=(24, 24)):
     return image_
 
 
-def get_svg(file, height=20, width=25):
-    """get_svg image"""
-
-    svg = os.path.join(ROOT, "svgs")
-    image_ = SvgImage(
-        format="svg", file=f"{os.path.join(svg, file)}", height=height, width=width
-    )
-    return image_
-
-
 def read_json(file: str):
     """JSON"""
 
     result = {}
     try:
-        with open(file, "r", encoding="utf-8") as f:
+        with open(file, encoding="utf-8") as f:
             try:
                 result = json.load(f)
             except json.JSONDecodeError:
@@ -57,7 +49,7 @@ def read_file(file: str):
 
     result = ""
     try:
-        with open(file, "r", encoding="utf-8") as f:
+        with open(file, encoding="utf-8") as f:
             result = f.read()
     except FileNotFoundError:
         pass

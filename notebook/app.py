@@ -1,17 +1,16 @@
 """Notepad"""
 
 import os
-
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askokcancel
-from ttkbootstrap.tooltip import ToolTip
-from ttkbootstrap.toast import ToastNotification
+
 import ttkbootstrap as tb
+from ttkbootstrap.toast import ToastNotification
+from ttkbootstrap.tooltip import ToolTip
 
-import functions as fun
-
+import notebook.utils.functions as fun
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 
@@ -136,41 +135,21 @@ class Navigation(tb.Frame):
         """popup"""
 
         self.selection_btn.add_command(label="Select All", accelerator="Ctrl+A")
-        self.selection_btn.add_command(
-            label="Expand Selection", accelerator="Shift+Alt+RightArrow"
-        )
-        self.selection_btn.add_command(
-            label="Shrink Selection", accelerator="Shift+Alt+LeftArrow"
-        )
+        self.selection_btn.add_command(label="Expand Selection", accelerator="Shift+Alt+RightArrow")
+        self.selection_btn.add_command(label="Shrink Selection", accelerator="Shift+Alt+LeftArrow")
         self.selection_btn.add_separator()
-        self.selection_btn.add_command(
-            label="Copy Line Up", accelerator="Shift+Alt+UpArrow"
-        )
-        self.selection_btn.add_command(
-            label="Copy Line Down", accelerator="Shift+Alt+DownArrow"
-        )
+        self.selection_btn.add_command(label="Copy Line Up", accelerator="Shift+Alt+UpArrow")
+        self.selection_btn.add_command(label="Copy Line Down", accelerator="Shift+Alt+DownArrow")
         self.selection_btn.add_command(label="Move Line Up", accelerator="Alt+UpArrow")
-        self.selection_btn.add_command(
-            label="Move Line Down", accelerator="Alt+DownArrow"
-        )
+        self.selection_btn.add_command(label="Move Line Down", accelerator="Alt+DownArrow")
         self.selection_btn.add_command(label="Duplicate Selection")
         self.selection_btn.add_separator()
-        self.selection_btn.add_command(
-            label="Add Cursor Above", accelerator="Ctrl+Alt+UpArrow"
-        )
-        self.selection_btn.add_command(
-            label="Add Cursor Below", accelerator="Ctrl+Alt+DownArrow"
-        )
-        self.selection_btn.add_command(
-            label="Add Cursor To Line Ends", accelerator="Shift+Alt+I"
-        )
-        self.selection_btn.add_command(
-            label="Add Next Occurrence", accelerator="Ctrl+D"
-        )
+        self.selection_btn.add_command(label="Add Cursor Above", accelerator="Ctrl+Alt+UpArrow")
+        self.selection_btn.add_command(label="Add Cursor Below", accelerator="Ctrl+Alt+DownArrow")
+        self.selection_btn.add_command(label="Add Cursor To Line Ends", accelerator="Shift+Alt+I")
+        self.selection_btn.add_command(label="Add Next Occurrence", accelerator="Ctrl+D")
         self.selection_btn.add_command(label="Add Previous Occurrence")
-        self.selection_btn.add_command(
-            label="Select All Occurrence", accelerator="Ctrl+Shift+L"
-        )
+        self.selection_btn.add_command(label="Select All Occurrence", accelerator="Ctrl+Shift+L")
         self.selection_btn.add_separator()
         self.selection_btn.add_command(label="Switch to Click+Click for Multi-Cursor")
         self.selection_btn.add_command(label="Column Selection Mode")
@@ -607,14 +586,10 @@ class Note(tb.Window):
 
         self.note_book.create_text_frame()
 
-        self.note_book.get_text_frame(self.note_book.count).get_edit().delete(
-            1.0, tk.END
-        )
+        self.note_book.get_text_frame(self.note_book.count).get_edit().delete(1.0, tk.END)
 
         content = fun.read_file(filepath)
-        self.note_book.get_text_frame(self.note_book.count).get_edit().insert(
-            tk.END, content
-        )
+        self.note_book.get_text_frame(self.note_book.count).get_edit().insert(tk.END, content)
 
         try:
             if filepath not in self.note["opened"]:
@@ -629,9 +604,7 @@ class Note(tb.Window):
     def ask_open_file(self):
         """Open"""
 
-        filepath = askopenfilename(
-            title="Open File", filetypes=Note.open_types, initialdir="."
-        )
+        filepath = askopenfilename(title="Open File", filetypes=Note.open_types, initialdir=".")
         self.open_file(filepath)
 
     def save_file(self, file_path=None):
@@ -643,9 +616,7 @@ class Note(tb.Window):
         if file_path:
             filepath = file_path
 
-        fun.write_file(
-            filepath, self.note_book.text_frames[tab_id].get_edit().get(1.0, tk.END)
-        )
+        fun.write_file(filepath, self.note_book.text_frames[tab_id].get_edit().get(1.0, tk.END))
 
         NutNotify("Note", f"File {filepath} saved").show()
 
